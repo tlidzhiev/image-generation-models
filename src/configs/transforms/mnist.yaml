@@ -1,0 +1,4 @@
+defaults:
+  - batch_transforms: mnist
+  - instance_transforms: default
+  - _self_

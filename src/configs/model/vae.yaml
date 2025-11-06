@@ -1,0 +1,13 @@
+_target_: src.model.vae.VAE
+image_size: ${dataset.size}
+in_channels: 3
+hidden_dims: [8, 16, 32]
+latent_dim: 20
+activation: relu
+norm_type: batch
+use_res: false
+attn_enc_at: null
+attn_dec_at: null
+upsample_mode: nearest
+output_range: sigmoid
+init_mode: normal

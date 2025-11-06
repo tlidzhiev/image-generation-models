@@ -1,0 +1,30 @@
+hydra:
+  run:
+    dir: ${writer.log_dir}
+
+defaults:
+  - _self_
+  - dataset: mnist
+  - dataloader: default
+  - transforms: ${dataset}
+  - model: vae
+  - criterion: ${model}
+  - metrics: trainer
+  - optimizer: default
+  - lr_scheduler: default
+  - writer: cometml
+
+trainer:
+  log_step: 50 # batches
+  num_epochs: 10
+  epoch_len: null
+  device_tensors: ["x"] # images
+  resume_from: null # null or path to the checkpoint dir with *.pth and config.yaml
+  from_pretrained: null # null or path to the checkpoint dir with *.pth and config.yaml
+  device: auto # device name or "auto"
+  monitor: min test_loss # "off" or "max/min metric_name", i.e. our goal is to maximize/minimize metric
+  save_period: 5 # checkpoint each save_period epochs in addition to the best epoch
+  early_stop: null # epochs for early stopping
+  max_grad_norm: null
+  checkpoint_dir: ${writer.log_dir}/checkpoints
+  seed: 1

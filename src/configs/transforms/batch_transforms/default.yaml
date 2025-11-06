@@ -1,0 +1,15 @@
+train:
+  x: # name of the tensor on which we apply transform
+    _target_: torch.nn.Sequential # to apply several transforms sequentially
+    _args_:
+      - _target_: torchvision.transforms.v2.Normalize # Normalize to [-1, 1]
+        mean: [0.5, 0.5, 0.5]
+        std: [0.5, 0.5, 0.5]
+
+inference:
+  x: # name of the tensor on which we apply transform
+    _target_: torch.nn.Sequential # to apply several transforms sequentially
+    _args_:
+      - _target_: torchvision.transforms.v2.Normalize # Normalize to [-1, 1]
+        mean: [0.5, 0.5, 0.5]
+        std: [0.5, 0.5, 0.5]

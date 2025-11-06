@@ -1,0 +1,9 @@
+device: auto
+inference: # metrics that are calculated during inference (eval)
+  - _target_: src.metrics.fid.FIDMetric
+    name: FID
+    feature: 2048
+    device: ${metrics.device}
+    dtype:
+      _target_: src.utils.torch.get_dtype
+      dtype: float32

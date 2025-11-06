@@ -1,0 +1,5 @@
+_target_: src.logger.tensorboard.TensorboardWriter
+project_name: image-generation-papers
+run_name: test
+run_id: null
+log_dir: logs/${writer.project_name}/${writer.run_name}

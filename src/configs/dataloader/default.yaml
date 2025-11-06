@@ -1,0 +1,27 @@
+train:
+  _target_: torch.utils.data.DataLoader
+  batch_size: 50
+  num_workers: 2
+  pin_memory: true
+  shuffle: true
+  drop_last: true
+  worker_init_fn:
+    _target_: hydra.utils.get_method
+    path: src.utils.init.set_worker_seed
+  collate_fn:
+    _target_: src.dataset.collate.collate_images_fn
+    use_condition: ${dataset.use_condition}
+
+test:
+  _target_: torch.utils.data.DataLoader
+  batch_size: 100
+  num_workers: 2
+  pin_memory: true
+  shuffle: false
+  drop_last: false
+  worker_init_fn:
+    _target_: hydra.utils.get_method
+    path: src.utils.init.set_worker_seed
+  collate_fn:
+    _target_: src.dataset.collate.collate_images_fn
+    use_condition: ${dataset.use_condition}

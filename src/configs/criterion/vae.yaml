@@ -1,0 +1,4 @@
+_target_: src.loss.vae.VAELoss
+beta: 1.0
+reconstruction_loss: bce
+per_element_mean: false

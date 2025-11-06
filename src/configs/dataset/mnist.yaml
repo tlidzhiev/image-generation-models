@@ -1,0 +1,20 @@
+use_condition: false
+size: 32
+
+train:
+  _target_: src.dataset.mnist.MNISTDataset
+  split: train
+  limit: null
+  shuffle_index: true
+  instance_transforms: ${transforms.instance_transforms.train}
+  force_reindex: false
+  use_condition: ${dataset.use_condition}
+
+test:
+  _target_: src.dataset.mnist.MNISTDataset
+  split: test
+  limit: null
+  shuffle_index: true
+  instance_transforms: ${transforms.instance_transforms.inference}
+  force_reindex: false
+  use_condition: ${dataset.use_condition}

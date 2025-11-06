@@ -1,0 +1,3 @@
+device: auto
+train: [] # use empty list instead of None / null
+inference: []
