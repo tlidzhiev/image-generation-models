@@ -214,3 +214,22 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# .DS_Store
+.DS_Store
+
+# Temporary files
+temp*
+
+# Data files
+*.png
+*.jpeg
+*.jpg
+*.safetensors
+data/**/index.json
+
+# Logs
+outputs
+wandb
+.cometml-runs
+logs
