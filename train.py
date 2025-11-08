@@ -43,7 +43,14 @@ def main(cfg: DictConfig) -> None:
         params=[p for p in model.parameters() if p.requires_grad],
     )
     logger.info(f'Optimizer:\n{optimizer}')
-    lr_scheduler = get_lr_scheduler(cfg, optimizer, dataloaders['train'])
+
+    lr_scheduler = get_lr_scheduler(
+        cfg=cfg,
+        optimizer=optimizer,
+        epoch_len=cfg.trainer.epoch_len
+        if isinstance(cfg.trainer.get('epoch_len'), int)
+        else len(dataloaders['train']),
+    )
     logger.info(f'LR Scheduler: {lr_scheduler}')
 
     criterion = instantiate(cfg.criterion).to(device)

@@ -445,7 +445,7 @@ class BaseTrainer:
         if transforms is None:
             return batch
 
-        for transform_name, transform_fn in transforms.items():  # ty: ignore[ call-non-callable]
+        for transform_name, transform_fn in transforms.items():
             batch[transform_name] = transform_fn(batch[transform_name])
         return batch
 
@@ -475,6 +475,10 @@ class BaseTrainer:
         if isinstance(parameters, torch.Tensor):
             parameters = [parameters]
         parameters = [p for p in parameters if p.grad is not None]
+
+        if len(parameters) == 0:
+            return 0.0
+
         total_norm = torch.norm(
             torch.stack([torch.norm(p.grad.detach(), norm_type) for p in parameters]),
             norm_type,
@@ -520,7 +524,9 @@ class BaseTrainer:
             'state_dict': self.model.state_dict(),
             'optimizer': self.optimizer.state_dict(),
             'lr_scheduler': self.lr_scheduler.state_dict(),
-            'monitor_best': f'{self.mnt_metric}: {self.mnt_best}',
+            'monitor_best': f'{self.mnt_metric}: {self.mnt_best}'
+            if self.mnt_mode != 'off'
+            else None,
             'cfg': self.cfg,
         }
         filename = str(self.checkpoint_dir / f'checkpoint-epoch-{epoch}.pth')

@@ -6,7 +6,6 @@ from hydra.utils import instantiate
 from omegaconf import DictConfig
 from torch.optim import Optimizer
 from torch.optim.lr_scheduler import LRScheduler
-from torch.utils.data import DataLoader
 
 
 def _parse_act(activation: str) -> tuple[str, float | None]:
@@ -186,7 +185,7 @@ def initialize_weights(
 def get_lr_scheduler(
     cfg: DictConfig,
     optimizer: Optimizer,
-    train_loader: DataLoader,
+    epoch_len: int,
 ) -> LRScheduler:
     """
     Get learning rate scheduler from config.
@@ -197,8 +196,8 @@ def get_lr_scheduler(
         Configuration object.
     optimizer : Optimizer
         PyTorch optimizer.
-    train_loader : DataLoader
-        Training data loader.
+    epoch_len : int
+        Number of steps in each epoch.
 
     Returns
     -------
@@ -208,11 +207,6 @@ def get_lr_scheduler(
     if cfg.lr_scheduler.scheduler.name == 'constant':
         num_training_steps, num_warmup_steps = None, None
     else:
-        epoch_len = epoch_len = (
-            cfg.trainer.epoch_len
-            if isinstance(cfg.trainer.get('epoch_len'), int)
-            else len(train_loader)
-        )
         num_training_steps = cfg.trainer.num_epochs * epoch_len
         num_warmup_steps = int(
             round(num_training_steps * cfg.lr_scheduler.get('warmup_ratio', 0.03))
